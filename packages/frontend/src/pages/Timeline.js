@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./Timeline.css";
 import twitterLogo from "../twitter.svg";
 import api from "../services/api";
+import Tweet from "../components/Tweet";
 
 export default class Timeline extends Component {
   state = {
@@ -43,9 +44,11 @@ export default class Timeline extends Component {
           />
         </form>
 
-        {this.state.tweets.map(tweet => (
-          <h1>{tweet.content}</h1>
-        ))}
+        <ul className="tweet-list">
+          {this.state.tweets.map(tweet => (
+            <Tweet key={tweet._id} tweet={tweet} />
+          ))}
+        </ul>
       </div>
     );
   }
