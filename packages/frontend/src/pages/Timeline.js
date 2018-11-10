@@ -3,6 +3,7 @@ import "./Timeline.css";
 import twitterLogo from "../twitter.svg";
 import api from "../services/api";
 import Tweet from "../components/Tweet";
+import socket from "socket.io-client";
 
 export default class Timeline extends Component {
   state = {
@@ -11,6 +12,8 @@ export default class Timeline extends Component {
   };
 
   async componentDidMount() {
+    this.subscribeToEvents();
+
     const response = await api.get("tweets");
     this.setState({ tweets: response.data });
   }
@@ -28,6 +31,21 @@ export default class Timeline extends Component {
     await api.post("tweets", { content, author });
 
     this.setState({ newTweet: "" });
+  };
+
+  subscribeToEvents = () => {
+    const io = socket("http://localhost:3000");
+
+    io.on("tweet", data => {
+      this.setState(state => ({ tweets: [data, ...state.tweets] }));
+    });
+    io.on("like", data => {
+      this.setState(state => ({
+        tweets: state.tweets.map(
+          tweet => (data._id === tweet._id ? data : tweet)
+        )
+      }));
+    });
   };
 
   render() {
