@@ -8,3 +8,4 @@ Sistema que simula as funções básicas do Twitter, ou seja, um mural de mensag
 
 - packages/backend (server-side): disponibiliza rotas para manutenção de tweets (listagem, inserção e likes)
 - packages/frontend (client-side): disponibliza interface para browser para executar as ações disponíveis no backend
+- packages/mobile (client-side): disponibliza interface para android para executar as ações disponíveis no backend
